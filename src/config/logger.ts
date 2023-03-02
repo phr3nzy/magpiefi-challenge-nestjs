@@ -6,15 +6,11 @@ const {
 	DISABLE_LOGGING = false,
 	NODE_ENV = 'development',
 	SERVICE_NAME = 'api',
-	LOG_TO_FILE = false,
-	LOG_FILE_PATH = 'logs/api.log',
 } = process.env as typeof process.env & {
 	LOG_LEVEL: Level;
 	DISABLE_LOGGING: boolean;
 	NODE_ENV: 'development' | 'production' | 'testing';
 	SERVICE_NAME: string;
-	LOG_TO_FILE: boolean;
-	LOG_FILE_PATH: string;
 };
 
 // Set up the streams we want to log to.
@@ -29,17 +25,6 @@ if (NODE_ENV === 'development' || NODE_ENV === 'testing') {
 } else {
 	// Otherwise, we just want to log to stdout.
 	streams.push({ stream: process.stdout, level: LOG_LEVEL });
-}
-
-// If we're in production, we also want to log to a file.
-if (NODE_ENV === 'production' && LOG_TO_FILE && LOG_FILE_PATH) {
-	streams.push({
-		stream: pino.destination({
-			dest: LOG_FILE_PATH,
-			sync: false,
-		}),
-		level: LOG_LEVEL,
-	});
 }
 
 /**
