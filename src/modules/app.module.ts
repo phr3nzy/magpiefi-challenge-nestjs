@@ -4,6 +4,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import * as joi from 'joi';
 import { AppController } from '../controllers/app.controller';
 import { PairController } from '../controllers/pair.controller';
+import { HealthController } from '../controllers/health.controller';
 import { AppService } from '../services/app.service';
 import { Logger } from '../services/logger.service';
 import { PairService } from '../services/pair.service';
@@ -61,7 +62,7 @@ export type EnvironmentConfiguration = {
 		}),
 		ScheduleModule.forRoot(),
 	],
-	controllers: [AppController, PairController],
+	controllers: [AppController, HealthController, PairController],
 	providers: [
 		AppService,
 		Logger,
