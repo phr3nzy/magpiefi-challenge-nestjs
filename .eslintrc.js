@@ -26,5 +26,24 @@ module.exports = {
 		'@typescript-eslint/explicit-function-return-type': 'off',
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
+		'no-unused-vars': ['warn', { argsIgnorePattern: '_{0,}|opts' }],
+		'@typescript-eslint/no-unused-vars': [
+			'warn',
+			{ argsIgnorePattern: '_{0,}|opts|options' },
+		],
+		'sort-imports': [
+			'warn',
+			{
+				ignoreDeclarationSort: true,
+				ignoreCase: true,
+			},
+		],
+		'@typescript-eslint/require-await': 'warn',
+		'@typescript-eslint/no-misused-promises': [
+			'error',
+			{
+				checksVoidReturn: false,
+			},
+		],
 	},
 };
