@@ -37,3 +37,6 @@ lerna-debug.log*
 # Local env files
 .env.local
 .env
+
+# VSCode folders
+.vscode
