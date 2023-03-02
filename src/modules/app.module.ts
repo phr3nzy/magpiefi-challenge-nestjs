@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import * as joi from 'joi';
-import { PairController } from '../controllers/pair.controller';
 import { AppController } from '../controllers/app.controller';
+import { PairController } from '../controllers/pair.controller';
 import { AppService } from '../services/app.service';
 import { Logger } from '../services/logger.service';
+import { PairService } from '../services/pair.service';
 import { PrismaService } from '../services/prisma.service';
-import { PairService } from 'src/services/pair.service';
+import { UrqlService } from '../services/urql.service';
+import { TasksService } from 'src/services/tasks.service';
 
 export type EnvironmentConfiguration = {
 	NODE_ENV: 'development' | 'production' | 'testing';
@@ -56,8 +59,16 @@ export type EnvironmentConfiguration = {
 				convert: true,
 			},
 		}),
+		ScheduleModule.forRoot(),
 	],
 	controllers: [AppController, PairController],
-	providers: [AppService, Logger, PrismaService, PairService],
+	providers: [
+		AppService,
+		Logger,
+		PrismaService,
+		PairService,
+		UrqlService,
+		TasksService,
+	],
 })
 export class AppModule {}
