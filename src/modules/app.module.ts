@@ -1,28 +1,36 @@
 import { Module } from '@nestjs/common';
-import { AppController } from '../controllers/app.controller';
-import { AppService } from '../services/app.service';
 import { ConfigModule } from '@nestjs/config';
 import * as joi from 'joi';
+import { PairController } from '../controllers/pair.controller';
+import { AppController } from '../controllers/app.controller';
+import { AppService } from '../services/app.service';
+import { Logger } from '../services/logger.service';
+import { PrismaService } from '../services/prisma.service';
+import { PairService } from 'src/services/pair.service';
 
-export interface EnvironmentConfiguration {
+export type EnvironmentConfiguration = {
 	NODE_ENV: 'development' | 'production' | 'testing';
 	HOST: string;
 	PORT: number;
 	SERVICE_NAME: string;
 	SERVICE_VERSION: string;
 	LOG_LEVEL: 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace';
+	DISABLE_LOGGING: boolean;
 	DATABASE_URL: string;
 	GRAPH_API_URL: string;
-}
+};
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
-			envFilePath: ['.env', '.env.local', '.env.template'],
-			ignoreEnvFile: process.env.NODE_ENV === 'production',
+			envFilePath: ['.env'],
 			isGlobal: true,
 			cache: true,
-			validationSchema: joi.object<EnvironmentConfiguration, true>({
+			validationSchema: joi.object<
+				EnvironmentConfiguration,
+				true,
+				EnvironmentConfiguration
+			>({
 				NODE_ENV: joi
 					.string()
 					.required()
@@ -38,16 +46,18 @@ export interface EnvironmentConfiguration {
 					.string()
 					.valid('fatal', 'error', 'warn', 'info', 'debug', 'trace')
 					.default('debug'),
+				DISABLE_LOGGING: joi.boolean().default(false),
 				DATABASE_URL: joi.string().required(),
 				GRAPH_API_URL: joi.string().required(),
 			}),
 			validationOptions: {
 				allowUnknown: true,
 				abortEarly: true,
+				convert: true,
 			},
 		}),
 	],
-	controllers: [AppController],
-	providers: [AppService],
+	controllers: [AppController, PairController],
+	providers: [AppService, Logger, PrismaService, PairService],
 })
 export class AppModule {}
