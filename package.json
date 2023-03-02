@@ -36,6 +36,7 @@
 		"ajv-errors": "^3.0.0",
 		"ajv-formats": "^2.1.1",
 		"joi": "^17.8.3",
+		"make-promises-safe": "^5.1.0",
 		"pino": "^8.11.0",
 		"pino-pretty": "^9.4.0",
 		"qs": "^6.11.0",
