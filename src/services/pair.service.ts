@@ -9,10 +9,4 @@ export class PairService {
 	async all(): Promise<Pair[]> {
 		return this.prisma.pair.findMany();
 	}
-
-	async insertMany(pairs: Pair[]) {
-		return this.prisma.pair.createMany({
-			data: pairs,
-		});
-	}
 }
