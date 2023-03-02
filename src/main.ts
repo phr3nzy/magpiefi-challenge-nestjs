@@ -20,7 +20,7 @@ bootstrap()
 	.then(() => {
 		logger.info('Ready to accept requests.');
 	})
-	.catch((error) =>
+	.catch(error =>
 		logger.error(
 			error,
 			'An error occured while attempting to bootstrap the server',
